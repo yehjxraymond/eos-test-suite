@@ -3,6 +3,9 @@ const crypto = require("crypto");
 const { execAsync } = require("../utils");
 const AccountManager = require("./accountManager");
 const ContractManager = require("./contractManager");
+
+const EOSIO_PRIVATE_KEY = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
+
 class Wallet {
   constructor({name, password}){
     this.name = name;
@@ -65,13 +68,13 @@ const create = async () => {
 }
 
 // Bootstrap a new wallet for testing
-const bootstrap = async (privateKey) => {
+const bootstrap = async (privateKey = EOSIO_PRIVATE_KEY) => {
   const wallet = await create();
   await wallet.import(privateKey);
   for(let i = 0; i<10; i++){
     await wallet.accountMgr.createAccount();
   }
-  return wallet;
+  return wallet;q
 }
 
 module.exports = {

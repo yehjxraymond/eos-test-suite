@@ -11,7 +11,7 @@ describe("create", ()=>{
   });
 });
 
-describe.only("boostrap", () => {
+describe("boostrap", () => {
   it('returns wallet with 10 accounts', async () => {
     const wallet = await bootstrap(EOSIO_PRIVATE_KEY);
     expect(wallet.name).toBeDefined;
