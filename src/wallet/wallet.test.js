@@ -1,4 +1,4 @@
-const {create} = require('./index');
+const {create} = require('./wallet');
 
 const EOSIO_PRIVATE_KEY = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
 const EOSIO_PUBLIC_KEY = "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV";
@@ -55,7 +55,7 @@ describe("Wallet", () => {
       const privateKey = "5J6ayCRNcJ8WdPY9xAtCfCq9MXo4oVCByH5tAxBKiSa5iKZetX9";
       const publicKey = "EOS61SGadVjWvr886ATvYkkvBmwyw5Xis8gyKgnVnvZUjiRz5sD29";
       await wallet.lockAll();
-      await wallet.importPrivateKey(privateKey);
+      await wallet.import(privateKey);
       const hasKey = await wallet.hasPublicKey(publicKey);
       expect(hasKey).toBe.true;
     });
@@ -67,10 +67,10 @@ describe("Wallet", () => {
     });
   })
 
-  describe("importPrivateKey" ,() => {
+  describe("import" ,() => {
     it('imports private key into the wallet', async () => {
       await wallet.lockAll();
-      await wallet.importPrivateKey(EOSIO_PRIVATE_KEY);
+      await wallet.import(EOSIO_PRIVATE_KEY);
       const hasKey = await wallet.hasPublicKey(EOSIO_PUBLIC_KEY);
       expect(hasKey).toBe.true;
     });
