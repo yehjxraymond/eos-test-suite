@@ -1,5 +1,7 @@
 const {create} = require('./index');
 
+const EOSIO_PRIVATE_KEY = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
+const EOSIO_PUBLIC_KEY = "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV";
 
 describe("create", ()=>{
   it('returns wallet name and password', async () => {
@@ -45,6 +47,32 @@ describe("Wallet", () => {
       await wallet.unlock();
       const locked = await wallet.isLocked();
       expect(locked).toBe.false;
+    });
+  });
+
+  describe("hasPublicKey", () => {
+    it('returns true if key exist', async () => {
+      const privateKey = "5J6ayCRNcJ8WdPY9xAtCfCq9MXo4oVCByH5tAxBKiSa5iKZetX9";
+      const publicKey = "EOS61SGadVjWvr886ATvYkkvBmwyw5Xis8gyKgnVnvZUjiRz5sD29";
+      await wallet.lockAll();
+      await wallet.importPrivateKey(privateKey);
+      const hasKey = await wallet.hasPublicKey(publicKey);
+      expect(hasKey).toBe.true;
+    });
+
+    it('returns false if key does not exist', async () => {
+      const publicKey = "EOS79MccUaLJg4gciPXJxC6p3m1iJHV1SH4zw5J5Um3dE4MvVYsVU";
+      const hasKey = await wallet.hasPublicKey(publicKey);
+      expect(hasKey).toBe.false;
+    });
+  })
+
+  describe("importPrivateKey" ,() => {
+    it('imports private key into the wallet', async () => {
+      await wallet.lockAll();
+      await wallet.importPrivateKey(EOSIO_PRIVATE_KEY);
+      const hasKey = await wallet.hasPublicKey(EOSIO_PUBLIC_KEY);
+      expect(hasKey).toBe.true;
     });
   });
 });
