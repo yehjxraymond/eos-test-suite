@@ -64,6 +64,17 @@ const create = async () => {
   });
 }
 
+// Bootstrap a new wallet for testing
+const bootstrap = async (privateKey) => {
+  const wallet = await create();
+  await wallet.import(privateKey);
+  for(let i = 0; i<10; i++){
+    await wallet.accountMgr.createAccount();
+  }
+  return wallet;
+}
+
 module.exports = {
-  create
+  create,
+  bootstrap
 }

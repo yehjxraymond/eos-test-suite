@@ -1,4 +1,4 @@
-const {create} = require('./wallet');
+const {create, bootstrap} = require('./wallet');
 
 const EOSIO_PRIVATE_KEY = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
 const EOSIO_PUBLIC_KEY = "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV";
@@ -10,6 +10,16 @@ describe("create", ()=>{
     expect(wallet.password).toBeDefined;
   });
 });
+
+describe.only("boostrap", () => {
+  it('returns wallet with 10 accounts', async () => {
+    const wallet = await bootstrap(EOSIO_PRIVATE_KEY);
+    expect(wallet.name).toBeDefined;
+    expect(wallet.password).toBeDefined;
+    expect(wallet.privateKeys).toEqual([EOSIO_PRIVATE_KEY]);
+    expect(wallet.accountMgr.accounts).toHaveLength(10);
+  });
+})
 
 describe("Wallet", () => {
   let wallet;
