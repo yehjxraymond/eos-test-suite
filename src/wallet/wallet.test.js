@@ -16,7 +16,6 @@ describe("Wallet", () => {
 
   beforeAll(async () => {
     wallet = await create();
-    console.log(wallet);
   });
 
   describe("lock", ()=>{

@@ -2,6 +2,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const { execAsync } = require("../utils");
 const AccountManager = require("./accountManager");
+const ContractManager = require("./contractManager");
 class Wallet {
   constructor({name, password}){
     this.name = name;
@@ -9,6 +10,7 @@ class Wallet {
     this.privateKeys = [];
     this.publicKeys = [];
     this.accountMgr = new AccountManager(this);
+    this.contractMgr = new ContractManager(this);
   }
 
   async unlock(){

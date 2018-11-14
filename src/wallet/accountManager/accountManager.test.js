@@ -31,7 +31,6 @@ describe("AccountManager", () => {
       const created = await accountMgr.hasAccount(name);
       expect(created).toBe.true;
       expect(accountMgr.accounts).toContain(name);
-      console.log(wallet);
     });
   });
 });
