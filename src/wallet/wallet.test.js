@@ -73,6 +73,8 @@ describe("Wallet", () => {
       await wallet.import(EOSIO_PRIVATE_KEY);
       const hasKey = await wallet.hasPublicKey(EOSIO_PUBLIC_KEY);
       expect(hasKey).toBe.true;
+      expect(wallet.publicKeys).toContain(EOSIO_PUBLIC_KEY);
+      expect(wallet.privateKeys).toContain(EOSIO_PRIVATE_KEY);
     });
   });
 });

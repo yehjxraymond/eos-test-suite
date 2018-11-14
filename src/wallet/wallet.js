@@ -1,18 +1,14 @@
 const fs = require("fs");
 const crypto = require("crypto");
-const { exec } = require("child_process");
-
-const execAsync = cmd => new Promise((resolve, reject) => {
-  exec(cmd, (err, stdout) => {
-    if (err) { return reject(err) }
-    resolve(stdout);
-  });
-});
-
+const { execAsync } = require("../utils");
+const AccountManager = require("./accountManager");
 class Wallet {
   constructor({name, password}){
     this.name = name;
     this.password = password;
+    this.privateKeys = [];
+    this.publicKeys = [];
+    this.accountMgr = new AccountManager(this);
   }
 
   async unlock(){
@@ -36,6 +32,7 @@ class Wallet {
   }
 
   async hasPublicKey(publicKey){
+    if(this.publicKeys.includes(publicKey)) return true;
     await this.unlock();
     try{
       const res = await execAsync(`cleos wallet keys | grep ${publicKey}`);
@@ -47,7 +44,9 @@ class Wallet {
 
   async import(privateKey) {
     await this.unlock();
-    await execAsync(`cleos wallet import -n ${this.name} --private-key ${privateKey}`);
+    const publicKey = await execAsync(`cleos wallet import -n ${this.name} --private-key ${privateKey} | sed -e "s/^imported private key for: //"`);
+    this.publicKeys.push(publicKey.trim());
+    this.privateKeys.push(privateKey);
   }
 }
 
